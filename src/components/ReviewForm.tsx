@@ -105,9 +105,16 @@ export default function ReviewForm() {
           document.execCommand("copy");
           document.body.removeChild(ta);
         }
+        const googleReviewUrl = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL;
+        if (!googleReviewUrl) {
+          console.error("NEXT_PUBLIC_GOOGLE_REVIEW_URL is not set");
+          showToast("Something went wrong. Please try again later.");
+          return;
+        }
+
         showToast("Copied! Taking you to Google…");
         setTimeout(() => {
-          window.location.href = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL;
+          window.location.href = googleReviewUrl;
         }, 900);
       } else {
         setSubmitted(true);
@@ -183,22 +190,20 @@ export default function ReviewForm() {
               <button
                 type="button"
                 onClick={() => setMode("write")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  mode === "write"
-                    ? "bg-indigo-600 text-white shadow"
-                    : "bg-gray-100 text-gray-600"
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === "write"
+                  ? "bg-indigo-600 text-white shadow"
+                  : "bg-gray-100 text-gray-600"
+                  }`}
               >
                 Write your own
               </button>
               <button
                 type="button"
                 onClick={() => setMode("keywords")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  mode === "keywords"
-                    ? "bg-indigo-600 text-white shadow"
-                    : "bg-gray-100 text-gray-600"
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === "keywords"
+                  ? "bg-indigo-600 text-white shadow"
+                  : "bg-gray-100 text-gray-600"
+                  }`}
               >
                 Quick keywords
               </button>
